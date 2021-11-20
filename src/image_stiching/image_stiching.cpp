@@ -21,7 +21,7 @@ void show_image(string title, Mat img_data)
 {
     imshow(title, img_data);
     waitKey(0);
-    destroyWindow(title);
+    // destroyWindow(title);
 }
 
 // vector<Mat> load_images(string file_path)
@@ -50,19 +50,24 @@ void show_image(string title, Mat img_data)
 //     return images;
 // }
 
-vector<Mat> load_images(vector<std::string> &image_list)
+void load_images(vector<string> &image_list, vector<Mat> &images)
 {
-    //输入字符串数组
-    vector<Mat> images;
+    // 输入字符串数组
+    // vector<Mat> images;
     // std::cout << "the input image are:" << std::endl;
-    for (auto image : image_list)
+    // for (auto image : image_list)
+    // {
+    //     std::cout << image << "\t";
+
+    //     Mat img = imread(image);
+    //     images.push_back(img);
+    // }
+    // return images;
+
+    for (size_t i = 0; i < image_list.size(); i++)
     {
-        // std::cout << image << "\t";
-        Mat img = imread(image);
-        images.push_back(img);
+        images[i] = imread(image_list[i]);
     }
-    // std::cout <<std::endl;
-    return images;
 }
 
 Mat grayscale_convert(Mat &image)
@@ -73,7 +78,7 @@ Mat grayscale_convert(Mat &image)
     return gray_image;
 }
 
-vector<KeyPoint> extract_keyPoint(Mat &image, int keyPoint_nums = 2000)
+vector<KeyPoint> extract_keyPoint(Mat &image, int keyPoint_nums)
 {
     //提取特征点
     SurfFeatureDetector Detector(keyPoint_nums);
@@ -121,10 +126,9 @@ vector<vector<Point2f>> keyPoint_match(vector<Mat> &image_desc, vector<Mat> &ima
     vector<vector<Point2f>> image_points(2);
     for (size_t i = 0; i < GoodMatchePoints.size(); i++)
     {
-        
+
         image_points[0].push_back(Key_point[0][GoodMatchePoints[i].trainIdx].pt);
         image_points[1].push_back(Key_point[1][GoodMatchePoints[i].queryIdx].pt);
-       
     }
     return image_points;
 }
@@ -208,12 +212,11 @@ vector<Mat> image_match(vector<vector<Point2f>> &image_points, vector<Mat> image
     // imwrite("image_transform.jpg", image_transform);
 
     //创建拼接后的图,需提前计算图的大小
-    int dst_width = image_transform.cols; 
+    int dst_width = image_transform.cols;
     //取最右点的长度为拼接图的长度
     int dst_height = images[1].rows;
     Mat dst(dst_height, dst_width, CV_8UC3);
     dst.setTo(0);
-
 
     image_transform.copyTo(dst(Rect(0, 0, image_transform.cols, image_transform.rows)));
     images[1].copyTo(dst(Rect(0, 0, images[1].cols, images[1].rows)));
@@ -261,12 +264,12 @@ void optimize_seam(Mat &images, Mat &trans, Mat &dst, four_corners_t &corners)
             d[j * 3 + 2] = p[j * 3 + 2] * alpha + t[j * 3 + 2] * (1 - alpha);
         }
     }
-
 }
 
 void image_stiching(vector<string> image_list, int image_nums, int keyPoint_nums)
 {
-    vector<Mat> images = load_images(image_list);
+    vector<Mat> images(image_nums);
+    load_images(image_list, images);
 
     vector<Mat> gray_image(image_nums);
 
@@ -276,7 +279,7 @@ void image_stiching(vector<string> image_list, int image_nums, int keyPoint_nums
 
     for (size_t i = 0; i < image_nums; i++)
     {
-        show_image("input_image",images[i]);
+        show_image("input_image", images[i]);
         gray_image[i] = grayscale_convert(images[i]);
         Key_point[i] = extract_keyPoint(gray_image[i], keyPoint_nums);
         image_desc[i] = keyPoint_descriptor(gray_image[i], Key_point[i]);
@@ -290,7 +293,6 @@ void image_stiching(vector<string> image_list, int image_nums, int keyPoint_nums
 
     show_image("before_opt_dst", match_res[1]);
     imwrite("before_opt_dst.jpg", match_res[1]);
-
 
     optimize_seam(images[1], match_res[0], match_res[1], corners);
 
