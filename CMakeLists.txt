@@ -34,18 +34,27 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 		# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/debugx64)
 		# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/releasex64)
 		# Copy DLL files to output directory
+		# 设置 可执行程序输出目录
+		set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/x64)
+		# 设置库文件输出目录
+		set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib/x64)
+		# 添加库文件路径
+		set(LINK_DIRECTORIES ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/lib/x64)
+		set(PROJECT_DLL_Dir ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/dll/x64)
 		if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE EQUAL "None" OR NOT CMAKE_BUILD_TYPE)
     		message(STATUS "CMAKE_BUILD_TYPE is Debug")
 			# 设置 可执行程序输出目录
-			set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/debugX64)
+			# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/debugX64)
 			# 设置库文件输出目录
-			set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/debugX64)
+			# set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib/debugX64)
+			set(LINK_CV_LIBS opencv_highgui2413d opencv_core2413d opencv_features2d2413d opencv_nonfree2413d opencv_legacy2413d  opencv_flann2413d opencv_imgproc2413d opencv_calib3d2413d)
 		elseif (CMAKE_BUILD_TYPE MATCHES "Release")
     		message(STATUS "CMAKE_BUILD_TYPE is Release")
 			# 设置 可执行程序输出目录
 			set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/releaseX64)
 			# 设置库文件输出目录
 			set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/releaseX64)
+			set(LINK_CV_LIBS opencv_highgui2413 opencv_core2413 opencv_features2d2413 opencv_nonfree2413 opencv_legacy2413  opencv_flann2413 opencv_imgproc2413 opencv_calib3d2413)
 		endif(CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE EQUAL "None" OR NOT CMAKE_BUILD_TYPE)
 		set(PROJECT_NAME ${PROJECT_NAME}_64)
 
@@ -59,21 +68,31 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 		# 设置库文件输出目录
 		# set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib/debugX86)
 		# set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib/releaseX86)
+
+		# 设置 可执行程序输出目录
+		set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/x86)
+		# 设置库文件输出目录
+		set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib/x86)
+		# 添加库文件路径
+		set(LINK_DIRECTORIES ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/lib/x86)
+		set(PROJECT_DLL_Dir ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/dll/x86)
 		if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE EQUAL "None" OR NOT CMAKE_BUILD_TYPE)
 			message(STATUS "CMAKE_BUILD_TYPE is Debug")
 			# 设置 可执行程序输出目录
-			set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/debugX86)
+			# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/debugX86)
 			# 设置库文件输出目录
-			set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/debugX86)
+			# set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/debugX86)
+
+			set(LINK_CV_LIBS opencv_highgui2413d opencv_core2413d opencv_features2d2413d opencv_nonfree2413d opencv_legacy2413d  opencv_flann2413d opencv_imgproc2413d opencv_calib3d2413d)
 		elseif (CMAKE_BUILD_TYPE MATCHES "Release")
 			message(STATUS "CMAKE_BUILD_TYPE is Release")
 			# 设置 可执行程序输出目录
-			set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/releaseX86)
+			# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/releaseX86)
 			# 设置库文件输出目录
-			set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/releaseX86)
+			# set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/releaseX86)
+			set(LINK_CV_LIBS opencv_highgui2413 opencv_core2413 opencv_features2d2413 opencv_nonfree2413 opencv_legacy2413  opencv_flann2413 opencv_imgproc2413 opencv_calib3d2413)
 		endif(CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE EQUAL "None" OR NOT CMAKE_BUILD_TYPE)
 		set(PROJECT_NAME ${PROJECT_NAME}_32)
-
 	endif(CMAKE_CL_64)
 endif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
@@ -90,12 +109,8 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # 添加库文件路径
 # link_directories(${PROJECT_SOURCE_DIR}/3dparty/opencv2/lib)
-set(LINK_DIRECTORIES ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/lib)
 LINK_DIRECTORIES(${LINK_DIRECTORIES})
 
-set(LINK_CV_LIBS opencv_highgui2413d opencv_core2413d opencv_features2d2413d opencv_nonfree2413d opencv_legacy2413d  opencv_flann2413d opencv_imgproc2413d opencv_calib3d2413d)
-
-set(PROJECT_DLL_Dir ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/dll)
 # 递归获取目录下所有的C/C++文件
 FILE(GLOB_RECURSE Cpp_files ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
