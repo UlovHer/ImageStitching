@@ -93,6 +93,8 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 set(LINK_DIRECTORIES ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/lib)
 LINK_DIRECTORIES(${LINK_DIRECTORIES})
 
+set(LINK_CV_LIBS opencv_highgui2413d opencv_core2413d opencv_features2d2413d opencv_nonfree2413d opencv_legacy2413d  opencv_flann2413d opencv_imgproc2413d opencv_calib3d2413d)
+
 set(PROJECT_DLL_Dir ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/dll)
 # 递归获取目录下所有的C/C++文件
 FILE(GLOB_RECURSE Cpp_files ${PROJECT_SOURCE_DIR}/src/*.cpp)
@@ -104,7 +106,7 @@ add_executable(${PROJECT_NAME} ${Cpp_files})
 
 # target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/lib/opencv_highgui2413d.lib ${PROJECT_SOURCE_DIR}/3rdparty/opencv2/lib/opencv_core2413d.lib)
 
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC opencv_highgui2413d opencv_core2413d)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC ${LINK_CV_LIBS})
 
 # 复制目录下的全部内容
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
