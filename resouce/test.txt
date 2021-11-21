@@ -1,2 +1,2 @@
-E:/VSCodeWorkSpace/ImageStitching/resouce/test1.jpg
-E:/VSCodeWorkSpace/ImageStitching/resouce/test2.jpg
+../../../resouce/test1.jpg 
+../../../resouce/test2.jpg
