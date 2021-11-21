@@ -1,0 +1,20 @@
+AUX_SOURCE_DIRECTORY(. LIB_SRCS)
+# 添加当前目录下所有的源文件
+
+#生成动态库  静态库则 STATIC
+ADD_LIBRARY(utils SHARED ${LIB_SRCS})
+#静态库不能写为image_stiching，否则会被动态库覆盖
+ADD_LIBRARY(libutils STATIC ${LIB_SRCS})
+# Debug库带“d”后缀
+set_target_properties(utils PROPERTIES DEBUG_POSTFIX d)
+# VERSION指代动态库版本，SOVERSION指代API版本。
+SET_TARGET_PROPERTIES (utils PROPERTIES VERSION 1.2 SOVERSION 1)
+SET_TARGET_PROPERTIES (libutils PROPERTIES VERSION 1.2 SOVERSION 1)
+
+# 没有依赖库,无需链接
+# TARGET_LINK_LIBRARIES(utils PUBLIC ${LINK_CV_LIBS})
+# TARGET_LINK_LIBRARIES(utils PUBLIC ${LINK_CV_LIBS})
+
+# 安装头文件
+# INSTALL(FILES utils.h DESTINATION ${PROJECT_SOURCE_DIR}/lib/include)
+file(COPY ${PROJECT_SOURCE_DIR}/include/utils.h DESTINATION ${PROJECT_SOURCE_DIR}/lib/include)
