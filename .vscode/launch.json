@@ -5,21 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Debug", //名称
-            "type": "cppdbg", //调试类型，除使用msvc进行调试外，均为该类型
+            "name": "Launch Debug", 
+            //名称
+            "type": "cppdbg", 
+            //调试类型，除使用msvc进行调试外，均为该类型
             "request": "launch",
-            "program": "${workspaceFolder}/build/${workspaceFolderBasename}", //指定C/C++程序位置
-            "args": [], //指定运行参数
+            "program": "${workspaceFolder}/bin/x64/Debug/ImageStitching.exe", 
+            //指定C/C++程序位置
+            "args": [], 
+            //指定运行参数
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}", //指定工作目录
+            "cwd": "${workspaceFolder}", 
+            //指定工作目录
             "environment": [],
             "externalConsole": false,
-            "osx": { //macOS的特定配置
-                // "miDebuggerPath": "/Applications/Xcode.app/Contents/ Developer/usr/bin/lldb-mi", //修改使用的lldb-mi，一般不需要修改
-                "MIMode": "lldb" //指定使用lldb进行调试
+            "osx": { 
+                //macOS的特定配置
+                // "miDebuggerPath": "/Applications/Xcode.app/Contents/ Developer/usr/bin/lldb-mi", 
+                //修改使用的lldb-mi，一般不需要修改
+                "MIMode": "lldb" 
+                //指定使用lldb进行调试
             },
-            "linux": { //linux的特定配置
-                "MIMode": "gdb", //指定使用gdb调试
+            "linux": { 
+                //linux的特定配置
+                "MIMode": "gdb", 
+                //指定使用gdb调试
                 "setupCommands": [
                     {
                         "description": "Enable pretty-printing for gdb",
@@ -28,10 +38,12 @@
                     }
                 ]
             },
-            "windows": { //windows的特定配置
-                "type": "cppvsdbg", //指定使用msvc进行调试
-                "program": "${workspaceFolder}/bin/debugX64/Debug/ImageStitching_64.exe", //指定C/C++程序位置
-                
+            "windows": { 
+                //windows的特定配置
+                "type": "cppvsdbg",
+                //指定使用lldb进行调试 
+                "MIMode": "lldb" 
+                //指定使用msvc进行调试
             }
         }
     ]
